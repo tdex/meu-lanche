@@ -33,6 +33,10 @@ public class IngredienteService {
 	}
 
 	public Ingrediente atualizarIngrediente(Ingrediente ing) {
+		if (ing.getId() == null) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Não foi informado o ID do ingrediente.");
+		}
+
 		return repository.findById(ing.getId()).map(ingrediente -> {
 			return repository.save(ing);
 		}).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Ingrediente não encontrado."));
